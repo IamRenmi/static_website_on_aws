@@ -1,5 +1,5 @@
 resource "aws_db_instance" "lab_db" {
-  identifier           = "lab-db"
+  identifier           = "lab-db1"
   engine               = "mysql"  # Could also be "aurora" based on requirements
   engine_version       = "8.0"    # Update this to your preferred version
   instance_class       = "db.t3.small"  # You can choose between db.t*.micro to db.t*.medium
@@ -29,7 +29,7 @@ resource "aws_db_instance" "lab_db" {
   multi_az               = false
   
   tags = {
-    Name = "lab-db"
+    Name = "lab-db1"
     Environment = "Dev/Test"
   }
 }
