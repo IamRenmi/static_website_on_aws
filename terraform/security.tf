@@ -11,6 +11,7 @@ resource "aws_security_group" "rds_sg" {
 
   # MySQL port access from web security group
   ingress {
+    description     = "Allow MySQL traffic from Web security group"
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"

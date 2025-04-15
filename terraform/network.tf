@@ -6,10 +6,10 @@ data "aws_vpc" "lab_vpc" {
 
 # Fetch subnets within the VPC
 data "aws_subnets" "private" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.lab_vpc.id]
-  }
+  # filter {
+  #   name   = "vpc-id"
+  #   values = [data.aws_vpc.lab_vpc.id]
+  # }
   filter {
     name   = "tag:Name"
     values = ["*Private*"]  # This matches "Private Subnet 1", "Private Subnet 2", etc.
