@@ -3,17 +3,27 @@ sudo yum update -y
 
 # variables
 DB_NAME="wordpress_db"            # Name of the database
-DB_USER="wp_dbuser"            # Database username
+DB_USER="wp_user"            # Database username
 DB_PASSWORD="lab-password"      # Database password
 WORDPRESS_DIR="/var/www/html"     # wordpress code directory
 
 # Install expect package
-yum install expect -y
+sudo yum install expect -y
 
 # Install and enable httpd Apache
 sudo yum install httpd -y
-systemctl start httpd
-systemctl enable httpd
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+# Installing PHP
+sudo yum install -y php php-{mysqlnd,fpm,xml,mbstring} -y
+# restart httpd
+sudo systemctl restart httpd
+
+# Install and enable MariaDB server
+sudo yum install mariadb105-server -y
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
 
 # Secure the MariaDB installation
 echo "Securing MariaDB installation..."
@@ -39,62 +49,37 @@ expect eof
 EOF
 echo "MariaDB installation secured."
 
-# Installing PHP
-sudo yum install -y php php-{mysqlnd,fpm,xml,mbstring} -y
-# restart httpd
-systemctl restart httpd
+# Create the WordPress database
+sudo mysql -u root -p$DB_PASSWORD -e "CREATE DATABASE $DB_NAME;"
+sudo mysql -u root -p$DB_PASSWORD -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
+sudo mysql -u root -p$DB_PASSWORD -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'localhost';"
+sudo mysql -u root -p$DB_PASSWORD -e "FLUSH PRIVILEGES;"
 
-# Change to the user's home directory
+# Download and install Wordpress
 cd /home/ec2-user
-
-# Download the latest WordPress
-wget https://wordpress.org/latest.zip
-
-# Unzip the WordPress archive
-unzip latest.zip
-
-# Move WordPress files to Apache's web directory
-mv wordpress/* ${WORDPRESS_DIR}
+wget https://wordpress.org/latest.tar.gz
+sudo tar -xvzf latest.tar.gz
+sudo mv wordpress/* ${WORDPRESS_DIR}
 
 # Change ownership of the web directory
-chown -R ec2-user:apache ${WORDPRESS_DIR}
+sudo chown -R apache:apache ${WORDPRESS_DIR}
+sudo chmod -R 755 ${WORDPRESS_DIR}
+sudo find ${WORDPRESS_DIR} -type f -exec chmod 644 {} \;
 
-# Create the WordPress database
-mysql -u root -p$DB_PASSWORD -e "CREATE DATABASE $DB_NAME;"
 
-# Create a user for the database
-mysql -u root -p$DB_PASSWORD -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';"
-
-# Grant privileges to the user
-mysql -u root -p$DB_PASSWORD -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'localhost';"
-
-# Flush privileges
-mysql -u root -p$DB_PASSWORD -e "FLUSH PRIVILEGES;"
 
 # Change to the WordPress directory
 cd ${WORDPRESS_DIR}
 
 # Create a WordPress configuration file from the sample
-cp wp-config-sample.php wp-config.php
+sudo cp wp-config-sample.php wp-config.php
+sudo rm -f ${WORDPRESS_DIR}/index.html
 
-# Replace database name in the configuration file
-sed -i "s/database_name_here/$DB_NAME/" wp-config.php
-
-# Replace database username in the configuration file
-sed -i "s/username_here/$DB_USER/" wp-config.php
-
-# Replace database password in the configuration file
-sed -i "s/password_here/$DB_PASSWORD/" wp-config.php
-
-# Replace database host in the configuration file
-sed -i "s/localhost/localhost/" wp-config.php
-
-
-# Set appropriate permissions for the web directory (directories)
-sudo find ${WORDPRESS_DIR} -type d -exec chmod 755 {} \;
-
-# Set appropriate permissions for the web directory (files)
-sudo find ${WORDPRESS_DIR} -type f -exec chmod 644 {} \;
+# Replace DB placeholders with your actual variables
+sed -i "s/database_name_here/${DB_NAME}/" ${WORDPRESS_DIR}/wp-config.php
+sed -i "s/username_here/${DB_USER}/" ${WORDPRESS_DIR}/wp-config.php
+sed -i "s/password_here/${DB_PASSWORD}/" ${WORDPRESS_DIR}/wp-config.php
+sed -i "s/localhost/localhost/" ${WORDPRESS_DIR}/wp-config.php
 
 # Restart Apache
 sudo systemctl restart httpd
