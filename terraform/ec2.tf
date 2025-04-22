@@ -8,6 +8,6 @@ resource "aws_instance" "wordpress" {
   user_data = file("../user_data/install_wordpress.sh")
 
   tags = {
-    Name = "WordPress-Server-userdata"
+    Name = "WordPress-Server-userdata1"
   }
 }
