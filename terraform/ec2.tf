@@ -3,7 +3,7 @@ resource "aws_instance" "wordpress" {
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public_subnet.id
   vpc_security_group_ids = [aws_security_group.wordpress_sg.id]
-  key_name      = "vockey"  
+  key_name = aws_key_pair.wordpress_key.key_name  
 
   user_data = file("../user_data/install_wordpress.sh")
 
