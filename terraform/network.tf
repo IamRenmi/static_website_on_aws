@@ -1,26 +1,27 @@
-data "aws_vpc" "lab_vpc" {
-  tags = {
-    Name = "Lab VPC"
+resource "aws_vpc" "wordpress_vpc" {
+  cidr_block = "48.0.0.0/16"
+}
+
+resource "aws_subnet" "public_subnet" {
+  vpc_id            = aws_vpc.wordpress_vpc.id
+  cidr_block        = "48.0.1.0/24"
+  map_public_ip_on_launch = true
+}
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.wordpress_vpc.id
+}
+
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.wordpress_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
   }
 }
 
-# Fetch subnets within the VPC
-data "aws_subnets" "private" {
-  # filter {
-  #   name   = "vpc-id"
-  #   values = [data.aws_vpc.lab_vpc.id]
-  # }
-  filter {
-    name   = "tag:Name"
-    values = ["*Private*"]  # This matches "Private Subnet 1", "Private Subnet 2", etc.
-  }
-}
-
-resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "rds-subnet-group1"
-  subnet_ids = data.aws_subnets.private.ids  # Correctly referencing subnet IDs
-
-  tags = {
-    Name = "RDS Subnet Group"
-  }
+resource "aws_route_table_association" "public_assoc" {
+  subnet_id      = aws_subnet.public_subnet.id
+  route_table_id = aws_route_table.public_rt.id
 }

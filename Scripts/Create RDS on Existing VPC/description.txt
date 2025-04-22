@@ -1,0 +1,15 @@
+Lab - Build RDS MySQL DB using Terraform
+**Request on Database**
+- **DatabaseEngine**: Supported engines are Amazon Aurora or MySQL. Amazon Aurora serverless is not available.
+- **Template**: Choose Dev/Test or Free tier.
+- **Availability and durability**: Avoid creating a standby instance.
+- **DB instance size**: Choose Burstable classes - db.t3 instances of type db. t*.micro to db.t*.medium.
+- **Storage**: Choose General Purpose SSD (gp2) of a size up to 100 GB. Provisioned IOPS access is restricted.
+- **Amazon VPC**: Use the _Lab VPC_
+- **Security Group**: Include a security group that will allow the LinuxServer to connect to the RDS instance.
+- For MySQL, under **Additional configuration** - **Enable Enhanced monitoring** - Disable the option
+- **Purchasing Options**: On-Demand instances are allowed. Other purchasing options are disabled.
+**Existing Infrastructure:**
+- VPC with 2 public and 2 private subnets
+- EC2 Bastion Server 
+- Web Security Group
