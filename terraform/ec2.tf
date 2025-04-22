@@ -1,5 +1,5 @@
 resource "aws_instance" "wordpress" {
-  ami           = "ami-05572e392e80aee89" 
+  ami           = "ami-0ce8c2b29fcc8a346" 
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public_subnet.id
   vpc_security_group_ids = [aws_security_group.wordpress_sg.id]
