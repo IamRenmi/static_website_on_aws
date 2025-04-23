@@ -1,6 +1,13 @@
 #!/bin/bash
 sudo yum update -y
 
+# add swap file to prevent memory exhaustion
+sudo fallocate -l 1G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
 # variables
 DB_NAME="wordpress_db"            # Name of the database
 DB_USER="wp_user"            # Database username
