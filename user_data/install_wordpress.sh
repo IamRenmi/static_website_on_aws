@@ -67,15 +67,19 @@ sudo mysql -u root -p$DB_PASSWORD -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB
 sudo mysql -u root -p$DB_PASSWORD -e "FLUSH PRIVILEGES;"
 
 # Download and install Wordpress
-cd /home/ec2-user
-wget https://wordpress.org/latest.tar.gz
-sudo tar -xvzf latest.tar.gz
-sudo mv wordpress/* ${WORDPRESS_DIR}
+wget https://wordpress.org/latest.tar.gz -O /tmp/latest.tar.gz
+cd /tmp
+tar -xvzf latest.tar.gz
 
-# Change ownership of the web directory
-sudo chown -R apache:apache ${WORDPRESS_DIR}/*
-sudo chmod -R 755 ${WORDPRESS_DIR}/*
-#sudo find ${WORDPRESS_DIR} -type f -exec chmod 644 {} \;
+if [ -d "wordpress" ]; then
+  sudo rm -rf ${WORDPRESS_DIR}/*
+  sudo mv wordpress/* ${WORDPRESS_DIR}
+  sudo chown -R apache:apache ${WORDPRESS_DIR}
+  sudo chmod -R 755 ${WORDPRESS_DIR}
+else
+  echo " WordPress extraction failed"
+  exit 1
+fi
 
 
 
