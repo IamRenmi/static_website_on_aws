@@ -17,6 +17,8 @@ sudo systemctl enable httpd
 
 # Installing PHP
 sudo yum install -y php php-{mysqlnd,fpm,xml,mbstring} -y
+sudo systemctl enable php-fpm
+sudo systemctl start php-fpm
 # restart httpd
 sudo systemctl restart httpd
 
@@ -24,7 +26,9 @@ sudo systemctl restart httpd
 sudo yum install mariadb105-server -y
 sudo systemctl start mariadb
 sudo systemctl enable mariadb
+sudo systemctl restart mariadb
 
+sleep 10
 # Secure the MariaDB installation
 echo "Securing MariaDB installation..."
 expect - <<EOF
