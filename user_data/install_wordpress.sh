@@ -62,9 +62,9 @@ sudo tar -xvzf latest.tar.gz
 sudo mv wordpress/* ${WORDPRESS_DIR}
 
 # Change ownership of the web directory
-sudo chown -R apache:apache ${WORDPRESS_DIR}
-sudo chmod -R 755 ${WORDPRESS_DIR}
-sudo find ${WORDPRESS_DIR} -type f -exec chmod 644 {} \;
+sudo chown -R apache:apache ${WORDPRESS_DIR}/*
+sudo chmod -R 755 ${WORDPRESS_DIR}/*
+#sudo find ${WORDPRESS_DIR} -type f -exec chmod 644 {} \;
 
 
 
