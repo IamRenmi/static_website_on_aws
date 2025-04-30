@@ -27,14 +27,39 @@ sudo yum install mariadb105 -y
 sudo yum install php php-{mysqli,fpm,xml,mbstring} -y
 
 # Mounting EFS
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport $EFS_DNS_ENDPOINT $WORDPRESS_DIR/
-echo "$EFS_DNS_ENDPOINT $WORDPRESS_DIR/ nfs defaults,_netdev 0 0" | sudo tee -a $FILE_SYSTEM_TABLE
-mount -a
+# Check if EFS is already mounted (optional but good practice)
+if ! mountpoint -q $WORDPRESS_DIR; then
+  echo "Mounting EFS..."
+  sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport $EFS_DNS_ENDPOINT $WORDPRESS_DIR/
+  # Add to fstab only if not already present
+  if ! grep -q "$EFS_DNS_ENDPOINT" $FILE_SYSTEM_TABLE; then
+      echo "$EFS_DNS_ENDPOINT $WORDPRESS_DIR/ nfs defaults,_netdev 0 0" | sudo tee -a $FILE_SYSTEM_TABLE
+  fi
+  # Ensure fstab mounts are processed
+  sudo mount -a
+else
+  echo "EFS is already mounted."
+fi
 
-# Download and install WordPress
-wget $WORDPRESS_URL
-sudo tar -xvzf latest.tar.gz
-sudo mv wordpress/* $WORDPRESS_DIR/
+# Check if WordPress is already installed in the directory
+if [ ! -f "$WORDPRESS_DIR/wp-config.php" ]; then
+  echo "WordPress not found, performing initial installation..."
+  # Download and install WordPress
+  wget $WORDPRESS_URL -O /tmp/latest.tar.gz # Download to a temp location
+  sudo tar -xvzf /tmp/latest.tar.gz -C /tmp/ # Extract to a temp location
+  sudo mv /tmp/wordpress/* $WORDPRESS_DIR/ # Move files to EFS
+
+  # Create WordPress config file - ONLY if not existing
+  sudo cp $WORDPRESS_DIR/wp-config-sample.php $WORDPRESS_DIR/wp-config.php
+  sudo sed -i "s/database_name_here/$WORDPRESS_DB/" $WORDPRESS_DIR/wp-config.php
+  sudo sed -i "s/username_here/$WORDPRESS_DB_USER/" $WORDPRESS_DIR/wp-config.php
+  sudo sed -i "s/password_here/$WORDPRESS_DB_PASSWORD/" $WORDPRESS_DIR/wp-config.php
+  sudo sed -i "s/localhost/$DB_ENDPOINT/" $WORDPRESS_DIR/wp-config.php
+
+  echo "Initial WordPress installation complete."
+else
+  echo "Existing WordPress installation found on EFS. Skipping download and config creation."
+fi
 
 # Set correct permission for user
 sudo chown -R apache:apache $WORDPRESS_DIR/
@@ -44,13 +69,6 @@ sudo usermod -a -G apache ec2-user
 sudo chown -R apache:apache $WORDPRESS_DIR/wp-content
 sudo find $WORDPRESS_DIR/wp-content -type d -exec chmod 775 {} \;
 sudo find $WORDPRESS_DIR/wp-content -type f -exec chmod 664 {} \;
-
-# Create WordPress config file
-sudo cp wp-config-sample.php wp-config.php
-sudo sed -i "s/database_name_here/$WORDPRESS_DB/" $WORDPRESS_DIR/wp-config.php
-sudo sed -i "s/username_here/$WORDPRESS_DB_USER/" $WORDPRESS_DIR/wp-config.php
-sudo sed -i "s/password_here/$WORDPRESS_DB_PASSWORD/" $WORDPRESS_DIR/wp-config.php
-sudo sed -i "s/localhost/$DB_ENDPOINT/" $WORDPRESS_DIR/wp-config.php
 
 # Change PHP limits
 sudo sed -i "s/^;*\(upload_max_filesize\s*=\s*\).*$/\$UPLOAD_MAX_FILESIZE/" "$PHP_INIT"
