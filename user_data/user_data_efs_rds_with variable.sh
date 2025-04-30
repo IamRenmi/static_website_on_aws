@@ -70,10 +70,16 @@ sudo chown -R apache:apache $WORDPRESS_DIR/wp-content
 sudo find $WORDPRESS_DIR/wp-content -type d -exec chmod 775 {} \;
 sudo find $WORDPRESS_DIR/wp-content -type f -exec chmod 664 {} \;
 
-# Change PHP limits
-sudo sed -i "s/^;*\(upload_max_filesize\s*=\s*\).*$/\$UPLOAD_MAX_FILESIZE/" "$PHP_INIT"
-sudo sed -i "s/^;*\(post_max_size\s*=\s*\).*$/\$POST_MAX_SIZE/" "$PHP_INIT"
-sudo sed -i "s/^;*\(memory_limit\s*=\s*\).*$/\$MEMORY_LIMIT/" "$PHP_INIT"
+# Change PHP limits (Apply every time for consistency)
+# Ensure PHP_INIT variable is correctly set
+if [ -f "$PHP_INIT" ]; then
+    sudo sed -i "s/^;*\(upload_max_filesize\s*=\s*\).*$/$UPLOAD_MAX_FILESIZE/" "$PHP_INIT"
+    sudo sed -i "s/^;*\(post_max_size\s*=\s*\).*$/$POST_MAX_SIZE/" "$PHP_INIT"
+    sudo sed -i "s/^;*\(memory_limit\s*=\s*\).*$/$MEMORY_LIMIT/" "$PHP_INIT"
+    echo "PHP limits updated."
+else
+    echo "PHP INI file not found at $PHP_INIT. Skipping PHP limit changes."
+fi
 
 # Restart services
 sudo systemctl restart php-fpm
