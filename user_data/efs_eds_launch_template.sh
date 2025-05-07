@@ -24,7 +24,7 @@ sudo systemctl enable httpd
 # Mariadb
 sudo yum install mariadb105 -y
 # PHP
-sudo yum install -y php php-{mysqli,fpm,xml,mbstring,gd,intl,zip}
+sudo yum install -y php php-{mysqlnd,fpm,xml,mbstring}
 
 
 # Mounting EFS
