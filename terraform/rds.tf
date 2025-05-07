@@ -1,7 +1,10 @@
-# DB Subnet Group using private_a (assuming private_a subnet was defined as aws_subnet.private_a)
+# DB Subnet Group with subnets in 2 AZs (required even for single-AZ DBs)
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds-subnet-group"
-  subnet_ids = [aws_subnet.private_a.id]  # Add more private subnets here for HA if needed
+  subnet_ids = [
+    aws_subnet.private_a.id,
+    aws_subnet.private_b.id
+  ]
 
   tags = {
     Name = "rds-subnet-group"
@@ -12,16 +15,16 @@ resource "aws_db_instance" "wp_db" {
   identifier           = "wp-db"
   engine               = "mysql"
   engine_version       = "8.0.41"
-  instance_class       = "db.t3.micro"          # Free Tier eligible class
-  allocated_storage    = 20                     # Minimum required for Free Tier
+  instance_class       = "db.t3.micro"          # Free Tier eligible
+  allocated_storage    = 20
   storage_type         = "gp2"
   
   username             = "admin"
-  password             = "lab-password"         # Use secrets manager in production
-  
+  password             = "lab-password"
+
   db_subnet_group_name     = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids   = [aws_security_group.rds_sg.id]
-  publicly_accessible      = false              # Disable public access
+  publicly_accessible      = false
 
   backup_retention_period  = 7
   backup_window            = "03:00-04:00"
@@ -36,9 +39,4 @@ resource "aws_db_instance" "wp_db" {
     Name        = "wp-db"
     Environment = "Dev/Test"
   }
-}
-
-# Output the RDS endpoint
-output "rds_endpoint" {
-  value = aws_db_instance.wp_db.endpoint
 }
