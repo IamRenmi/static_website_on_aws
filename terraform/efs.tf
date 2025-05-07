@@ -1,6 +1,7 @@
 # EFS File System
 resource "aws_efs_file_system" "wp_efs" {
   creation_token = "wp-efs"
+  encrypted      = true
   
   tags = {
     Name = "wp-efs"
