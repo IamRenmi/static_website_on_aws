@@ -7,7 +7,7 @@ resource "aws_vpc" "wordpress_vpc" {
 
 resource "aws_subnet" "public_a" {
   vpc_id            = aws_vpc.wordpress_vpc.id
-  cidr_block        = "48.0.1.0/16"
+  cidr_block        = "48.0.1.0/24"
   availability_zone = "us-east-1a"
 
   tags = {
@@ -17,7 +17,7 @@ resource "aws_subnet" "public_a" {
 
 resource "aws_subnet" "private_a" {
   vpc_id            = aws_vpc.wordpress_vpc.id
-  cidr_block        = "48.0.2.0/16"
+  cidr_block        = "48.0.2.0/24"
   availability_zone = "us-east-1a"
 
   tags = {
@@ -27,7 +27,7 @@ resource "aws_subnet" "private_a" {
 
 resource "aws_subnet" "public_b" {
   vpc_id            = aws_vpc.wordpress_vpc.id
-  cidr_block        = "48.0.3.0/16"
+  cidr_block        = "48.0.3.0/24"
   availability_zone = "us-east-1b"
 
   tags = {
@@ -37,7 +37,7 @@ resource "aws_subnet" "public_b" {
 
 resource "aws_subnet" "private_b" {
   vpc_id            = aws_vpc.wordpress_vpc.id
-  cidr_block        = "48.0.4.0/16"
+  cidr_block        = "48.0.4.0/24"
   availability_zone = "us-east-1b"
 
   tags = {
