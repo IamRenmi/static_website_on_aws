@@ -4,10 +4,10 @@ variable "WORDPRESS_DIR" {
   default     = "/var/www/html"
 }
 
-variable "EFS_DNS_ENDPOINT" {
-  description = "EFS DNS endpoint created by Terraform"
-  type        = string
-}
+# variable "EFS_DNS_ENDPOINT" {
+#   description = "EFS DNS endpoint created by Terraform"
+#   type        = string
+# }
 
 variable "FILE_SYSTEM_TABLE" {
   description = "Path to fstab file"
@@ -27,10 +27,10 @@ variable "PHP_INIT" {
   default     = "/etc/php.ini"
 }
 
-variable "DB_ENDPOINT" {
-  description = "RDS database endpoint created by Terraform"
-  type        = string
-}
+# variable "DB_ENDPOINT" {
+#   description = "RDS database endpoint created by Terraform"
+#   type        = string
+# }
 
 variable "WORDPRESS_DB" {
   description = "WordPress database name"
