@@ -1,5 +1,5 @@
 resource "aws_instance" "bastion" {
-  ami                         = "ami-0f88e80871fd81e91"
+  ami                         = "ami-009082a6cd90ccd0e"
   instance_type               = "t2.micro"
   key_name                    = "0427-bastion"
   subnet_id                   = aws_subnet.public_a.id
@@ -15,7 +15,7 @@ resource "aws_instance" "bastion" {
 
 
 resource "aws_instance" "wp_server" {
-  ami                         = "ami-0f88e80871fd81e91"
+  ami                         = "ami-009082a6cd90ccd0e"
   instance_type               = "t2.micro"
   key_name                    = "0427-wordpress"
   subnet_id                   = aws_subnet.public_a.id

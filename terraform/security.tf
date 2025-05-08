@@ -87,7 +87,7 @@ resource "aws_security_group" "wordpress_sg" {
 }
 
 resource "aws_security_group" "wp_public_sg" {
-  name        = "wordpress-sg"
+  name        = "wp-public-sg"
   description = "sg for wordpress instance with public access"
   vpc_id      = aws_vpc.wordpress_vpc.id
 
