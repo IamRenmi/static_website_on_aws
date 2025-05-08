@@ -49,7 +49,7 @@ resource "aws_security_group" "efs_sg" {
 }
 
 
-resource "aws_security_group" "wordpress_sg" {
+resource "aws_security_group" "f" {
   name        = "wordpress-sg"
   description = "sg for wordpress instance"
   vpc_id      = aws_vpc.wordpress_vpc.id
