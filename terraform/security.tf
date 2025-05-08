@@ -36,6 +36,14 @@ resource "aws_security_group" "efs_sg" {
     security_groups = [aws_security_group.wordpress_sg.id]
   }
 
+  ingress {
+    description     = "allow nfs connection from public wordpress instance"
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
+    security_groups = [aws_security_group.wp_public_sg.id]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -49,7 +57,7 @@ resource "aws_security_group" "efs_sg" {
 }
 
 
-resource "aws_security_group" "f" {
+resource "aws_security_group" "wordpress_sg" {
   name        = "wordpress-sg"
   description = "sg for wordpress instance"
   vpc_id      = aws_vpc.wordpress_vpc.id
@@ -144,6 +152,14 @@ resource "aws_security_group" "rds_sg" {
     to_port         = 3306
     protocol        = "tcp"
     security_groups = [aws_security_group.wordpress_sg.id]
+  }
+
+  ingress {
+    description     = "allow db connection from wordpress instance"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.wp_public_sg.id]
   }
 
   # Allow MySQL/Aurora from Bastion SG
