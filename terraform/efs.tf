@@ -24,5 +24,5 @@ resource "aws_efs_mount_target" "wp_efs_b" {
 
 output "efs_dns_endpoint" {
   description = "DNS name of the EFS file system"
-  value       = aws_efs_file_system.wordpress_efs.dns_name
+  value       = aws_efs_file_system.wp_efs.dns_name
 }

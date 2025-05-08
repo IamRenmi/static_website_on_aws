@@ -43,13 +43,13 @@ resource "aws_db_instance" "wp_db" {
 
 output "rds_endpoint" {
   description = "Endpoint of the RDS database instance"
-  value       = aws_db_instance.wordpress_db.endpoint
+  value       = aws_db_instance.wp_db.endpoint
 }
 
 
 resource "null_resource" "run_sql" {
   provisioner "local-exec" {
-    command = "mysql -h ${rds_endpoint} -u admin -p${var.WORDPRESS_DB_PASSWORD} < ../user_data/init_wp_db.sql"
+    command = "mysql -h ${aws_db_instance.wp_db.endpoint} -u admin -p${var.WORDPRESS_DB_PASSWORD} < ../user_data/init_wp_db.sql"
   }
 
   depends_on = [aws_db_instance.wp_db]
