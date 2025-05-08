@@ -21,3 +21,8 @@ resource "aws_efs_mount_target" "wp_efs_b" {
   subnet_id       = aws_subnet.private_b.id
   security_groups = [aws_security_group.efs_sg.id]
 }
+
+output "efs_dns_endpoint" {
+  description = "DNS name of the EFS file system"
+  value       = aws_efs_file_system.wordpress_efs.dns_name
+}

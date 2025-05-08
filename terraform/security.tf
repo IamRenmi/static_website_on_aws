@@ -81,6 +81,16 @@ resource "aws_security_group" "wordpress_sg" {
     security_groups = [aws_security_group.bastion_sg.id]
   }
 
+  tags = {
+    Name = "wordpress-sg"
+  }
+}
+
+resource "aws_security_group" "wp_public_sg" {
+  name        = "wordpress-sg"
+  description = "sg for wordpress instance with public access"
+  vpc_id      = aws_vpc.wordpress_vpc.id
+
   # Rule 4: Allow SSH from anywhere
   ingress {
     description = "allow ssh from anywhere"
@@ -108,9 +118,16 @@ resource "aws_security_group" "wordpress_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    description = "allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }  
 
   tags = {
-    Name = "wordpress-sg"
+    Name = "wp-public-sg"
   }
 }
 
