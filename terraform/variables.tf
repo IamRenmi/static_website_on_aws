@@ -56,3 +56,22 @@ variable "ssh_allowed_cidr" {
   type        = string
   default = "176.5.61.140/32"
 }
+
+## RDS
+variable "db_password" {
+  description = "RDS master user password"
+  type        = string
+  sensitive   = true
+}
+
+variable "db_user" {
+  description = "RDS master user password"
+  type        = string
+  default = "admin"
+}
+
+variable "db_az" {
+  description = "Availability zone for RDS single-AZ deployment"
+  type        = string
+  default     = "eu-west-3a"
+}
