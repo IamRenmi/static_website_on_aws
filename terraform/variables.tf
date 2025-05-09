@@ -44,3 +44,14 @@ variable "subnet_azs" {
     "data-b"   = "eu-west-3b"
   }
 }
+
+variable "environment" {
+  description = "Deployment environment label (e.g., dev, test)"
+  type        = string
+  default     = "dev"
+}
+
+variable "ssh_allowed_cidr" {
+  description = "CIDR block (your IP) allowed to SSH into servers"
+  type        = string
+}
