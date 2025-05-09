@@ -50,7 +50,7 @@ module "efs" {
 ## EC2
 ## Setup instance
 module "setup_instance" {
-  source             = "../modules/setup_instance"
+  source             = "../modules/ec2"
   ami_id             = "ami-03b82db05dca8118d"
   instance_type      = "t2.micro"
   key_name           = "bastion"
