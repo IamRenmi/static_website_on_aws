@@ -65,4 +65,5 @@ module "setup_instance" {
   db_name            = var.db_name
   db_user            = var.db_username
   db_password        = var.db_password
+  region             = var.region
 }

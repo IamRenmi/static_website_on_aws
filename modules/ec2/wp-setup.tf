@@ -16,7 +16,8 @@ sudo su
 
 yum update -y
 mkdir -p /var/www/html
-mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${var.efs_mount_dns}:/ /var/www/html
+mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${var.efs_mount_dns}.efs.${var.region}.amazonaws.com:/ /var/www/html
+
 
 yum install -y httpd httpd-tools mod_ssl
 systemctl enable httpd

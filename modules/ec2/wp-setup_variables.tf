@@ -28,6 +28,11 @@ variable "efs_mount_dns" {
   type        = string
 }
 
+variable "region" {
+  description = "AWS region for EFS DNS suffix"
+  type        = string
+}
+
 variable "db_endpoint" {
   description = "RDS endpoint DNS name"
   type        = string
