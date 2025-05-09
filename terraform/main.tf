@@ -46,3 +46,23 @@ module "efs" {
   subnet_ids        = module.vpc.data_subnet_ids
   security_group_id = module.security_groups.efs_sg_id
 }
+
+## EC2
+## Setup instance
+module "setup_instance" {
+  source             = "../modules/setup_instance"
+  ami_id             = "ami-03b82db05dca8118d"
+  instance_type      = "t2.micro"
+  key_name           = "bastion"
+  subnet_id          = module.vpc.public_subnet_ids[0] # public-a
+  security_group_ids = [
+    module.security_groups.ssh_sg_id,
+    module.security_groups.alb_sg_id,
+    module.security_groups.web_sg_id
+  ]
+  efs_mount_dns      = module.efs.efs_id
+  db_endpoint        = module.rds.address
+  db_name            = module.rds.db_name
+  db_user            = module.rds.username
+  db_password        = var.db_password
+}
