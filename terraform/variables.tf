@@ -76,3 +76,14 @@ variable "db_az" {
   default     = "eu-west-3a"
 }
 
+variable "db_name" {
+  description = "WordPress database name"
+  type        = string
+  default     = "wordpress"
+}
+
+variable "db_username" {
+  description = "WordPress database user"
+  type        = string
+  default     = "admin"
+}
