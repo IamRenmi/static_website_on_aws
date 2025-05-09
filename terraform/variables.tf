@@ -61,7 +61,7 @@ variable "ssh_allowed_cidr" {
 variable "db_password" {
   description = "RDS master user password"
   type        = string
-  sensitive   = true
+  default     = "lab-password"
 }
 
 variable "db_user" {
