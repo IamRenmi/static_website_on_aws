@@ -1,11 +1,11 @@
 #!/bin/bash
 # Variables
 WORDPRESS_DIR="/var/www/html"
-EFS_DNS_ENDPOINT="wp-db.cfkie6c86npc.eu-central-1.rds.amazonaws.com:/"
+EFS_DNS_ENDPOINT="fs-0abaf6b254f7f3443.efs.eu-central-1.amazonaws.com:/"
 FILE_SYSTEM_TABLE="/etc/fstab"
 WORDPRESS_URL="https://wordpress.org/latest.tar.gz"
 PHP_INIT="/etc/php.ini"
-DB_ENDPOINT=aws_db_instance.wordpress_db.endpoint
+DB_ENDPOINT="wp-db.cfkie6c86npc.eu-central-1.rds.amazonaws.com"
 WORDPRESS_DB="wordpress"
 WORDPRESS_DB_USER="wp-user"
 WORDPRESS_DB_PASSWORD="lab-password"
