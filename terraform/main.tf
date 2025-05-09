@@ -66,4 +66,3 @@ module "setup_instance" {
   db_user            = var.db_username
   db_password        = var.db_password
 }
-
