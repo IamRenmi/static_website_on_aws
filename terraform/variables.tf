@@ -54,4 +54,5 @@ variable "environment" {
 variable "ssh_allowed_cidr" {
   description = "CIDR block (your IP) allowed to SSH into servers"
   type        = string
+  default = "176.5.61.140/32"
 }
