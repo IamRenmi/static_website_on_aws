@@ -50,7 +50,7 @@ module "efs" {
 ## EC2
 ## Setup instance
 module "setup_instance" {
-  source             = "../modules/ec2"
+  source             = "../modules/setup_instance"
   ami_id             = "ami-03b82db05dca8118d"
   instance_type      = "t2.micro"
   key_name           = "bastion"
@@ -62,7 +62,8 @@ module "setup_instance" {
   ]
   efs_mount_dns      = module.efs.efs_id
   db_endpoint        = module.rds.address
-  db_name            = module.rds.db_name
-  db_user            = module.rds.username
+  db_name            = var.db_name
+  db_user            = var.db_username
   db_password        = var.db_password
 }
+

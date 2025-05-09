@@ -19,7 +19,7 @@ variable "subnet_id" {
 }
 
 variable "security_group_ids" {
-  description = "Security Group IDs: SSH, ALB, Web"
+  description = "List of security group IDs: SSH, ALB, Web"
   type        = list(string)
 }
 
