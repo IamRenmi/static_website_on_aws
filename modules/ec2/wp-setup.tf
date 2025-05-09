@@ -7,7 +7,7 @@ resource "aws_instance" "setup_server" {
   vpc_security_group_ids      = var.security_group_ids
 
   tags = {
-    Name = "setup-server"
+    Name = "setup-server1"
   }
 
   user_data = base64encode(<<-EOF
@@ -32,8 +32,13 @@ yum install -y mysql-community-server
 systemctl enable mysqld
 systemctl start mysqld
 
-# Initialize RDS database manually via instructions above
-echo "Please initialize your DB using: mysql -h ${var.db_endpoint} -u ${var.db_user} -p"
+# Initialize RDS: create DB and WP user
+mysql -h ${var.db_endpoint} -u ${var.db_user} -p${var.db_password} <<CREATE_DB_SQL
+CREATE DATABASE ${var.db_name};
+CREATE USER 'wp-user'@'%' IDENTIFIED BY '${var.db_password}';
+GRANT ALL PRIVILEGES ON ${var.db_name}.* TO 'wp-user'@'%';
+FLUSH PRIVILEGES;
+CREATE_DB_SQL
 
 usermod -a -G apache ec2-user
 chown -R ec2-user:apache /var/www
