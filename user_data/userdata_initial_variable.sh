@@ -1,7 +1,7 @@
 #!/bin/bash
 # Variables
 WORDPRESS_DIR="/var/www/html"
-EFS_DNS_ENDPOINT=aws_efs_file_system.wordpress_efs.dns_name
+EFS_DNS_ENDPOINT="wp-db.cfkie6c86npc.eu-central-1.rds.amazonaws.com:/"
 FILE_SYSTEM_TABLE="/etc/fstab"
 WORDPRESS_URL="https://wordpress.org/latest.tar.gz"
 PHP_INIT="/etc/php.ini"

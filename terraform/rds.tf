@@ -47,10 +47,10 @@ output "rds_endpoint" {
 }
 
 
-resource "null_resource" "run_sql" {
-  provisioner "local-exec" {
-    command = "mysql -h ${aws_db_instance.wp_db.endpoint} -u admin -p${var.WORDPRESS_DB_PASSWORD} < ../user_data/init_wp_db.sql"
-  }
+# resource "null_resource" "run_sql" {
+#   provisioner "local-exec" {
+#     command = "mysql -h ${aws_db_instance.wp_db.endpoint} -u admin -p${var.WORDPRESS_DB_PASSWORD} < ../user_data/init_wp_db.sql"
+#   }
 
-  depends_on = [aws_db_instance.wp_db]
-}
+#   depends_on = [aws_db_instance.wp_db]
+# }
