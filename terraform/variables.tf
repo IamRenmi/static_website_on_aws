@@ -36,11 +36,11 @@ variable "subnet_azs" {
   description = "Map of subnet names to availability zones"
   type        = map(string)
   default = {
-    "public-a" = "eu-west-3-a"
-    "public-b" = "eu-west-3-b"
-    "app-a"    = "eu-west-3-a"
-    "app-b"    = "eu-west-3-b"
-    "data-a"   = "eu-west-3-a"
-    "data-b"   = "eu-west-3-b"
+    "public-a" = "eu-west-3a"
+    "public-b" = "eu-west-3b"
+    "app-a"    = "eu-west-3a"
+    "app-b"    = "eu-west-3b"
+    "data-a"   = "eu-west-3a"
+    "data-b"   = "eu-west-3b"
   }
 }
