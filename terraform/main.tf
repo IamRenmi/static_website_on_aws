@@ -95,12 +95,14 @@ module "webserver_b" {
 }
 
 ## ALB
-module "alb_tg" {
-  source    = "../modules/alb"
-  vpc_id    = module.vpc.vpc_id
+module "alb" {
+  source                 = "../modules/alb"
+  vpc_id                 = module.vpc.vpc_id
+  public_subnets         = module.vpc.public_subnet_ids
+  alb_security_group_id  = module.security_groups.alb_sg_id
   target_ids = {
     webserver_a = module.webserver_a.webserver_id
     webserver_b = module.webserver_b.webserver_id
   }
-  # protocol, port, and health_check use module defaults
+  # uses default protocol = "HTTP", port = 80, health_check settings
 }
