@@ -67,3 +67,26 @@ module "setup_instance" {
   db_password        = var.db_password
   region             = var.region
 }
+
+## Webserver
+module "webserver_a" {
+  source           = "../modules/webserver"
+  ami_id           = "ami-03b82db05dca8118d"
+  instance_type    = "t2.micro"
+  key_name         = "wordpress"
+  subnet_id        = module.vpc.app_subnet_ids[0]  # app-a
+  security_group_id = module.security_groups.web_sg_id
+  efs_mount_dns    = module.efs.efs_id
+  region           = var.region
+}
+
+module "webserver_b" {
+  source           = "../modules/webserver"
+  ami_id           = "ami-03b82db05dca8118d"
+  instance_type    = "t2.micro"
+  key_name         = "wordpress"
+  subnet_id        = module.vpc.app_subnet_ids[1]  # app-b
+  security_group_id = module.security_groups.web_sg_id
+  efs_mount_dns    = module.efs.efs_id
+  region           = var.region
+}
