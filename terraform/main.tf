@@ -131,7 +131,7 @@ module "sns" {
 
 ## ASG
 module "asg_wordpress" {
-  source                   = "../modules/asg-wordpress"
+  source                   = "../modules/asg"
   launch_template_id       = module.launch_template.launch_template_id
   launch_template_version  = "$Latest"
   subnet_ids               = module.vpc.app_subnet_ids
