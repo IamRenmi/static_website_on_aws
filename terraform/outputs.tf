@@ -87,5 +87,6 @@ output "webserver_b_ip" {
 
 ## alb
 output "target_group_arn" {
-  value = module.alb_tg.arn
+  description = "ARN of the wp-tg target group"
+  value       = module.alb_tg.arn
 }

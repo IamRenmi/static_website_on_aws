@@ -96,10 +96,11 @@ module "webserver_b" {
 
 ## ALB
 module "alb_tg" {
-  source     = "../modules/alb"
-  vpc_id     = module.vpc.vpc_id
-  target_ids = [
-    module.webserver_a.webserver_id,
-    module.webserver_b.webserver_id
-  ]
+  source    = "../modules/alb"
+  vpc_id    = module.vpc.vpc_id
+  target_ids = {
+    webserver_a = module.webserver_a.webserver_id
+    webserver_b = module.webserver_b.webserver_id
+  }
+  # protocol, port, and health_check use module defaults
 }

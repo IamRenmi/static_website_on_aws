@@ -1,9 +1,9 @@
 resource "aws_lb_target_group" "wp_tg" {
-  name               = "wp-tg"
-  protocol           = var.protocol
-  port               = var.port
-  vpc_id             = var.vpc_id
-  protocol_version   = "HTTP1"
+  name             = "wp-tg"
+  protocol         = var.protocol
+  port             = var.port
+  vpc_id           = var.vpc_id
+  protocol_version = "HTTP1"
 
   health_check {
     enabled             = true
@@ -17,7 +17,7 @@ resource "aws_lb_target_group" "wp_tg" {
 }
 
 resource "aws_lb_target_group_attachment" "webservers" {
-  for_each         = toset(var.target_ids)
+  for_each         = var.target_ids
   target_group_arn = aws_lb_target_group.wp_tg.arn
   target_id        = each.value
   port             = var.port

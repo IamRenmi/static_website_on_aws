@@ -4,8 +4,8 @@ variable "vpc_id" {
 }
 
 variable "target_ids" {
-  description = "List of instance IDs to register"
-  type        = list(string)
+  description = "Map of logical names to instance IDs to register"
+  type        = map(string)
 }
 
 variable "port" {
