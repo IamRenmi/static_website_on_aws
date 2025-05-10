@@ -75,19 +75,31 @@ module "webserver_a" {
   instance_type     = "t2.micro"
   key_name          = "wordpress"
   subnet_id         = module.vpc.app_subnet_ids[0]
+  subnet_name       = "a"
   security_group_id = module.security_groups.web_sg_id
   efs_mount_dns     = module.efs.efs_id
   region            = var.region
 }
 
-# Webserver B in app-b subnet
+# Instantiate Webserver B (subnet app-b)
 module "webserver_b" {
   source            = "../modules/webserver"
   ami_id            = "ami-03b82db05dca8118d"
   instance_type     = "t2.micro"
   key_name          = "wordpress"
   subnet_id         = module.vpc.app_subnet_ids[1]
+  subnet_name       = "b"
   security_group_id = module.security_groups.web_sg_id
   efs_mount_dns     = module.efs.efs_id
   region            = var.region
+}
+
+## ALB
+module "alb_tg" {
+  source     = "../modules/alb"
+  vpc_id     = module.vpc.vpc_id
+  target_ids = [
+    module.webserver_a.webserver_id,
+    module.webserver_b.webserver_id
+  ]
 }

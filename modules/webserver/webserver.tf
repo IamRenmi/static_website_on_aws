@@ -7,9 +7,9 @@ resource "aws_instance" "webserver" {
   vpc_security_group_ids      = [var.security_group_id]
 
   tags = {
-    Name = var.key_name == "wordpress" && var.subnet_id != "" ? "webserver-${var.subnet_id}" : "webserver"
+    Name = "webserver-${var.subnet_name}"
   }
-
+  
   user_data = base64encode(<<-EOF
 #!/bin/bash
 sudo yum update -y

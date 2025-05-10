@@ -84,3 +84,8 @@ output "webserver_a_ip" {
 output "webserver_b_ip" {
   value = module.webserver_b.webserver_private_ip
 }
+
+## alb
+output "target_group_arn" {
+  value = module.alb_tg.arn
+}

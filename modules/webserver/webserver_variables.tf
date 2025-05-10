@@ -18,6 +18,11 @@ variable "subnet_id" {
   type        = string
 }
 
+variable "subnet_name" {
+  description = "Logical name of the subnet (e.g., 'a' or 'b')"
+  type        = string
+}
+
 variable "security_group_id" {
   description = "Security Group ID for webserver (webserver-sg)"
   type        = string
