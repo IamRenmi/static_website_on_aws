@@ -1,5 +1,5 @@
 variable "ami_id" {
-  description = "AMI ID for webserver instances"
+  description = "AMI ID for webserver instance"
   type        = string
 }
 
@@ -14,7 +14,7 @@ variable "key_name" {
 }
 
 variable "subnet_id" {
-  description = "Subnet ID for this webserver"
+  description = "Subnet ID for the webserver"
   type        = string
 }
 

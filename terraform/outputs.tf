@@ -68,18 +68,19 @@ output "setup_instance_ip" {
   value = module.setup_instance.public_ip
 }
 
+## Web server
 output "webserver_a_id" {
-  value = module.webserver_a.webserver_ids[0]
+  value = module.webserver_a.webserver_id
 }
 
 output "webserver_b_id" {
-  value = module.webserver_b.webserver_ids[1]
+  value = module.webserver_b.webserver_id
 }
 
 output "webserver_a_ip" {
-  value = module.webserver_a.webserver_ips[0]
+  value = module.webserver_a.webserver_private_ip
 }
 
 output "webserver_b_ip" {
-  value = module.webserver_b.webserver_ips[1]
+  value = module.webserver_b.webserver_private_ip
 }

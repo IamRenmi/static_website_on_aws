@@ -1,9 +1,9 @@
-output "webserver_ids" {
-  description = "IDs of webserver instances"
-  value       = aws_instance.web[*].id
+output "webserver_id" {
+  description = "ID of the webserver instance"
+  value       = aws_instance.webserver.id
 }
 
-output "webserver_ips" {
-  description = "Private IPs of webserver instances"
-  value       = aws_instance.web[*].private_ip
+output "webserver_private_ip" {
+  description = "Private IP of the webserver instance"
+  value       = aws_instance.webserver.private_ip
 }
