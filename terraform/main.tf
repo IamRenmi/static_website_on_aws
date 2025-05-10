@@ -116,3 +116,13 @@ module "launch_template" {
   efs_mount_dns     = module.efs.efs_id
   region            = var.region
 }
+
+## SNS
+module "sns" {
+  source = "../modules/sns"
+  name   = "wp-topic"
+  tags   = {
+    Environment = var.environment
+    Project     = "wordpress"
+  }
+}

@@ -100,3 +100,9 @@ output "target_group_arn" {
   description = "ARN of the ALB target group"
   value       = module.alb.target_group_arn
 }
+
+## SNS
+output "sns_topic_arn" {
+  description = "ARN of the WordPress SNS topic"
+  value       = module.sns.arn
+}
