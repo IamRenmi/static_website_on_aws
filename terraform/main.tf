@@ -128,3 +128,16 @@ module "sns" {
   subscription_protocol = "email"
   subscription_endpoint = "msliyijia@outlook.com"
 }
+
+## ASG
+module "asg_wordpress" {
+  source                   = "../modules/asg-wordpress"
+  launch_template_id       = module.launch_template.launch_template_id
+  launch_template_version  = "$Latest"
+  subnet_ids               = module.vpc.app_subnet_ids
+  target_group_arn         = module.alb.target_group_arn
+  notification_topic_arn   = module.sns.topic_arn
+  desired_capacity         = 2
+  min_size                 = 1
+  max_size                 = 4
+}

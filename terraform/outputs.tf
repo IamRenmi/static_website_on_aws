@@ -111,3 +111,14 @@ output "sns_subscription_id" {
   description = "ID of the WordPress SNS subscription"
   value       = module.sns.subscription_id
 }
+
+## ASG
+output "asg_name" {
+  description = "Name of the WordPress Auto Scaling Group"
+  value       = module.asg_wordpress.asg_name
+}
+
+output "asg_notification_id" {
+  description = "ID of the ASG SNS notification"
+  value       = module.asg_wordpress.notification_id
+}
