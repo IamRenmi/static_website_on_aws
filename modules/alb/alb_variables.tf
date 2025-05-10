@@ -34,6 +34,6 @@ variable "health_check" {
     timeout             = 5
     unhealthy_threshold = 2
     healthy_threshold   = 5
-    matcher             = "200-302"
+    matcher             = "200,301,302"
   }
 }
