@@ -119,10 +119,12 @@ module "launch_template" {
 
 ## SNS
 module "sns" {
-  source = "../modules/sns"
-  name   = "wp-topic"
-  tags   = {
+  source               = "../modules/sns"
+  name                 = "wp-topic"
+  tags                 = {
     Environment = var.environment
     Project     = "wordpress"
   }
+  subscription_protocol = "email"
+  subscription_endpoint = "msliyijia@outlook.com"
 }

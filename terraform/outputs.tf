@@ -104,5 +104,10 @@ output "target_group_arn" {
 ## SNS
 output "sns_topic_arn" {
   description = "ARN of the WordPress SNS topic"
-  value       = module.sns.arn
+  value       = module.sns.topic_arn
+}
+
+output "sns_subscription_id" {
+  description = "ID of the WordPress SNS subscription"
+  value       = module.sns.subscription_id
 }
