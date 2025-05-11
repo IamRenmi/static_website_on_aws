@@ -1,7 +1,7 @@
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "eu-west-3"
+  default     = "eu-west-2"
 }
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
@@ -36,12 +36,12 @@ variable "subnet_azs" {
   description = "Map of subnet names to availability zones"
   type        = map(string)
   default = {
-    "public-a" = "eu-west-3a"
-    "public-b" = "eu-west-3b"
-    "app-a"    = "eu-west-3a"
-    "app-b"    = "eu-west-3b"
-    "data-a"   = "eu-west-3a"
-    "data-b"   = "eu-west-3b"
+    "public-a" = "eu-west-2a"
+    "public-b" = "eu-west-2b"
+    "app-a"    = "eu-west-2a"
+    "app-b"    = "eu-west-2b"
+    "data-a"   = "eu-west-2a"
+    "data-b"   = "eu-west-2b"
   }
 }
 
@@ -54,7 +54,7 @@ variable "environment" {
 variable "ssh_allowed_cidr" {
   description = "CIDR block (your IP) allowed to SSH into servers"
   type        = string
-  default = "176.5.61.140/32"
+  default = "0.0.0.0/0"
 }
 
 ## RDS
@@ -73,7 +73,7 @@ variable "db_user" {
 variable "db_az" {
   description = "Availability zone for RDS single-AZ deployment"
   type        = string
-  default     = "eu-west-3a"
+  default     = "eu-west-2a"
 }
 
 variable "db_name" {
