@@ -102,15 +102,15 @@ output "private_route_table_ids" {
 # }
 
 ## SNS
-output "sns_topic_arn" {
-  description = "ARN of the WordPress SNS topic"
-  value       = module.sns.topic_arn
-}
+# output "sns_topic_arn" {
+#   description = "ARN of the WordPress SNS topic"
+#   value       = module.sns.topic_arn
+# }
 
-output "sns_subscription_id" {
-  description = "ID of the WordPress SNS subscription"
-  value       = module.sns.subscription_id
-}
+# output "sns_subscription_id" {
+#   description = "ID of the WordPress SNS subscription"
+#   value       = module.sns.subscription_id
+# }
 
 ## ASG
 # output "asg_name" {
