@@ -117,17 +117,17 @@ module "efs" {
 #   region            = var.region
 # }
 
-# ## SNS
-# module "sns" {
-#   source               = "../modules/sns"
-#   name                 = "wp-topic"
-#   tags                 = {
-#     Environment = var.environment
-#     Project     = "wordpress"
-#   }
-#   subscription_protocol = "email"
-#   subscription_endpoint = "msliyijia@outlook.com"
-# }
+## SNS
+module "sns" {
+  source               = "../modules/sns"
+  name                 = "wp-topic"
+  tags                 = {
+    Environment = var.environment
+    Project     = "wordpress"
+  }
+  subscription_protocol = "email"
+  subscription_endpoint = "msliyijia@outlook.com"
+}
 
 # ## ASG
 # module "asg_wordpress" {
